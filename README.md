@@ -118,3 +118,27 @@ I am watching this bug and will remove this note when it has been fixed.
 ```link
   https://next-auth.js.org/configuration/options#session
 ```
+
+# 3 UI Testing
+
+## Technologies
+
+### Jest
+
+```link
+  https://jestjs.io/
+```
+
+### React Testing Library
+
+```link
+  https://testing-library.com/docs/react-testing-library/intro
+```
+
+### Mock Service Worker
+
+```link
+  https://mswjs.io/
+```
+
+### Special Setup required to avoid errors
