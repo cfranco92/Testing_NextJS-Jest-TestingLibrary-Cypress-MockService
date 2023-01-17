@@ -142,3 +142,30 @@ I am watching this bug and will remove this note when it has been fixed.
 ```
 
 ### Special Setup required to avoid errors
+
+```link
+  https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions#including-non-page-files-in-the-pages-directory
+```
+
+## SIDE NOTE: Why add to the existing test? Why not create a new test?
+
+Why add to the existing test? Why not create a new test?
+I came from a back-end unit testing background, where the standard was short, isolated tests with only one assertion per test. I had trouble shifting my mindset to longer tests with multiple assertions – so I would have wondered about the above questions.
+
+### Front-end tests often build as the test progresses
+
+As I’ve become more familiar with front-end testing, I have gotten used to longer tests with multiple assertions. Front-end tests often involve long setup (clicking buttons and entering text), and usually the setup builds on previous parts of the test. Kent C. Dodds (the creator of Testing Library) has a blog post discussing this.
+
+Note: the simple test in this section does not follow that pattern; the only setup is rendering the component, and the assertions could fairly easily be broken into multiple shorter tests. However, I am so used to longer tests at this point that I tend to use them even when they aren’t strictly necessary.
+
+### You could still break the tests down though, right?
+
+Yes, tests that go through a sequence of steps – and assert after each step – can be broken into separate tests. In order to make the tests shorter, however, we would need to mimic initial state for each piece of the tests using mocks or other "behind the scenes" state manipulation that is not generally endorsed by Kent C. Dodds.
+
+### What about beforeEach?
+
+Another alternative would be to put repetitive code in beforeEach statements. This definitely makes the code cleaner and less repetitive. However, the goals of test code aren't exactly the same as the goals of production code. It's common to optimize test code for “readability and ease of diagnosis” over “fewer lines of code and less repetition.” When a test fails, you want to spend as little time as possible analyzing the test function (so you can diagnose what caused it to fail). If the code is spread among many functions (such as in both beforeEach and the test function), that introduces some more complexity and works against this goal. Kent C. Dodds has a thing or two to say about this too.
+
+### The bottom line
+
+For the reasons discussed above, I no longer follow a strict “one assertion per test” policy. However, this is ultimately your choice – I encourage you to experiment and decide which works best for you.
