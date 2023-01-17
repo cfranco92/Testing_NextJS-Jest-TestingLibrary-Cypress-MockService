@@ -119,7 +119,7 @@ I am watching this bug and will remove this note when it has been fixed.
   https://next-auth.js.org/configuration/options#session
 ```
 
-# 3 UI Testing
+# 4 UI Testing
 
 ## Technologies
 
@@ -170,9 +170,10 @@ Another alternative would be to put repetitive code in beforeEach statements. Th
 
 For the reasons discussed above, I no longer follow a strict “one assertion per test” policy. However, this is ultimately your choice – I encourage you to experiment and decide which works best for you.
 
-
 ## SIDE NOTE: About Fake Data for "Popular Convert Venue"
+
 ### About Fake Data for "Popular Concert Venue"
+
 Normally, I would write fake data as JavaScript objects so that it could be imported and used synchronously (see mock data for the Ten-Cent Teacakes site as an example). However, the Popular Concert Venue site uses a JSON database (in order to let students follow along with the course without having to sign up for a cloud service or install a database on their computer).
 
 In the Test Database section, I need a command to reset the database from the command-line (because the database needs to be reset before building the app, for SSG and ISR). I didn't want to create a full JavaScript script with babel, etc -- which would be needed if I used JavaScript mock data objects and the writeJSONtoFile method. So, the simplest way to write this command was to overwrite the JSON files in the test database with JSON files that contain clean data.
@@ -180,3 +181,9 @@ In the Test Database section, I need a command to reset the database from the co
 If I made a mock data file that had JavaScript objects, I would have to duplicate the data from those JSON files. It is not convenient to maintain data in multiple places, and also prone to error if the data gets update in one place and not another!
 
 My solution for this app was to create an async readFakeData method that reads data from the JSON files and returns objects containing the fake data.
+
+## Mock Service Worker
+
+```link
+  https://mswjs.io/
+```
