@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { Reservation } from "@/components/reservations/reservation";
+import { Reservation } from "@/components/reservations/Reservation";
 
 test("reservation page shows correct number of availbale setas", async () => {
   render(<Reservation showId={0} submitPurchase={jest.fn()} />);
