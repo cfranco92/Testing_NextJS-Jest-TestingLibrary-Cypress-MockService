@@ -187,3 +187,25 @@ My solution for this app was to create an async readFakeData method that reads d
 ```link
   https://mswjs.io/
 ```
+
+```terminal
+$ npm install msw --save-dev
+```
+
+### Define Mocks
+
+```link
+  https://mswjs.io/docs/getting-started/mocks
+```
+
+### Mocking REST API
+
+```link
+  https://mswjs.io/docs/getting-started/mocks/rest-api
+```
+
+### Integrate with Node.js```link
+
+```link
+  https://mswjs.io/docs/getting-started/integrate/node
+```
