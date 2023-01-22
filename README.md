@@ -209,3 +209,128 @@ $ npm install msw --save-dev
 ```link
   https://mswjs.io/docs/getting-started/integrate/node
 ```
+
+## SIDE NOTE: Troubleshooting MSW Handlers
+
+### Troubleshooting Mock Service Worker Handlers
+
+There are many ways that Mock Service Worker handlers can behave unexpectedly. Here are some common syntax mistakes that might cause this:
+
+### 1. Mismatch in handler URL vs. code URL
+
+The URL must match exactly in order for MSW to recognize the request.
+
+If this is causing your issue, you'll see this additional error in tests (actual URL might be different):
+
+```link
+[MSW] Warning: captured a request without a matching request handler:
+• GET http://localhost:3000/api/shows/0
+```
+
+Possible reasons they might not match:
+
+mistyping the endpoint in the handler URL so they're different in the two places.
+
+mistyping the port so they're different in the two places.
+
+using http in one place and https in the other.
+
+### 2. Using the wrong method (e.g. .get() vs .post())
+
+Just as the URL must match exactly, the method must also match in order for MSW to recognize the request. This is a common issue (for me anyway!) if I copy/paste, say, a .get() handler and forget to update the method to the appropriate one for the new handler (.post(), .put() etc.)
+
+#### example erroneous code:
+
+```javascript
+rest.post(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) => {
+return res(ctx.json({ userReservations: fakeUserReservations }));
+}
+),
+```
+
+#### example fix:
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) => {
+return res(ctx.json({ userReservations: fakeUserReservations }));
+}
+),
+```
+
+### 3. Using braces around function instead of implicit return
+
+The arrow function syntax allows for an implicit return when curly braces are omitted. It's easy to mistakenly add the curly braces and nullify the explicit return.
+
+#### example erroneous code:
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) => {
+res(ctx.json({ userReservations: fakeUserReservations }));
+}
+),
+```
+
+#### example fix #1: add explicit return
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) => {
+return res(ctx.json({ userReservations: fakeUserReservations }));
+}
+),
+```
+
+####  example fix #2: remove curly braces for implicit return
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) =>
+res(ctx.json({ userReservations: fakeUserReservations }));
+),
+```
+
+### 4. Omitting res from handler return value
+#### example erroneous code:
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) =>
+ctx.json({ userReservations: fakeUserReservations });
+),
+```
+
+#### example fix:
+
+```javascript
+rest.get(
+"http://localhost:3000/api/users/:userId/reservations",
+(req, res, ctx) =>
+res(ctx.json({ userReservations: fakeUserReservations }));
+),
+```
+
+### 5. Handler Response Resolver Parameters in Incorrect Order
+   Because the parameters are ordered (and not destructured from an object), the parameter order is critical.
+
+#### example erroneous code:
+
+```javascript
+  rest.get('http://localhost:3000/api/users/:userId/reservations', (res, req, ctx) => {
+```
+
+#### example fix: swap res and req:
+
+````javascript
+  rest.get('http://localhost:3000/api/users/:userId/reservations', (req, res, ctx) => {
+```
+If your handlers for the course project are still not working after trying the above troubleshooting steps, please write into the course Q&A with a link to a GitHub repo containing your code and I'll be glad to take a look.
+````
