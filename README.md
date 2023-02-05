@@ -119,6 +119,8 @@ I am watching this bug and will remove this note when it has been fixed.
   https://next-auth.js.org/configuration/options#session
 ```
 
+---
+
 # 4 UI Testing
 
 ## Technologies
@@ -287,7 +289,7 @@ return res(ctx.json({ userReservations: fakeUserReservations }));
 ),
 ```
 
-####  example fix #2: remove curly braces for implicit return
+#### example fix #2: remove curly braces for implicit return
 
 ```javascript
 rest.get(
@@ -298,6 +300,7 @@ res(ctx.json({ userReservations: fakeUserReservations }));
 ```
 
 ### 4. Omitting res from handler return value
+
 #### example erroneous code:
 
 ```javascript
@@ -319,7 +322,8 @@ res(ctx.json({ userReservations: fakeUserReservations }));
 ```
 
 ### 5. Handler Response Resolver Parameters in Incorrect Order
-   Because the parameters are ordered (and not destructured from an object), the parameter order is critical.
+
+Because the parameters are ordered (and not destructured from an object), the parameter order is critical.
 
 #### example erroneous code:
 
@@ -334,3 +338,45 @@ res(ctx.json({ userReservations: fakeUserReservations }));
 ```
 If your handlers for the course project are still not working after trying the above troubleshooting steps, please write into the course Q&A with a link to a GitHub repo containing your code and I'll be glad to take a look.
 ````
+
+---
+
+# 5 Setting up a test database
+
+## WINDOWS AND LINUX USERS: adjustments to npm scripts
+
+A couple differences to the syntax in this section for :
+
+### 1. Windows Command Shell and Powershell users:
+
+Use set instead of export for environment variables.
+
+Whenever an npm script starts with export, you will want to use set instead. For example:
+
+Mac and Linux command (what's shown in the course):
+
+```terminal
+ "start:test": "export NODE_ENV=\"test\" && next start"
+```
+
+Windows Command Shell and Powershell command:
+
+```terminal
+"start:test": "set NODE_ENV=\"test\" && next start"
+```
+
+### 2. Windows and Linux users:
+
+The db:reset npm script needs to start with sh instead of source and specify the directory.
+
+Mac and command (what's shown in the course):
+
+```terminal
+  "db:reset": "source scripts/reset-db.sh"
+```
+
+Linux, Windows Command Shell and Windows Powershell command:
+
+```terminal
+  "db:reset": "sh ./scripts/reset-db.sh"
+```
